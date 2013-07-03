@@ -27,8 +27,8 @@ function handleSuccess(position) {
                +"&lat="+position.coords.latitude
                +"&long="+position.coords.longitude
                +"&acc="+position.coords.accuracy
-               +"&alt="+position.coords.altitude
-               +"&alt_acc="+position.coords.altitudeAccuracy
+               +(position.coords.altitude ? "&alt="+position.coords.altitude : "")
+               +(position.coords.altitudeAccuracy ? "&alt_acc="+position.coords.altitudeAccuracy : "")
 
     ,true);
   xmlhttp.send();
