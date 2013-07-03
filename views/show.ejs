@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width">
+<meta charset="UTF-8">
+<title></title>
+<style>
+* { margin: 0; padding: 0; }
+#map {
+  height: 400px;
+}
+</style>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.css" />
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.ie.css" />
+<![endif]-->
+<script src="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.js"></script>
+<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.2.2"></script>
+</head>
+<body>
+<h1>Map</h1>
+  <div id="main">
+    <div id="map"></div>
+  </div>
+  <script type="text/javascript">
+// create a map in the "map" div, set the view to a given place and zoom
+var map = L.map('map').setView([51.505, -0.09], 13);
+
+// add an OpenStreetMap tile layer
+new L.StamenTileLayer("terrain").addTo(map);
+
+  </script>
+
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script>
+var temp = [];
+$.ajax({dataType: "JSON", url: "/trails.json"})
+.done(function(result) {
+  temp = result;
+  var latlngs = result.map(function(e) { return new L.LatLng(+e.latitude, +e.longitude) });
+  var pl = new L.Polyline(latlngs, {color: 'black'}).addTo(map)
+  map.fitBounds(pl.getBounds());
+});
+  </script>
+</body>
+</html>
