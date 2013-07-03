@@ -32,13 +32,25 @@ new L.StamenTileLayer("watercolor").addTo(map);
 
   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
   <script>
-var temp = [];
+var funkycolors = ["blueviolet", "chartreuse", "darkblue", "darkmagenta", "green", "indigo", "maroon", "orangered", "black", "magenta", "deeppink"];
 $.ajax({dataType: "JSON", url: "/trails.json"})
 .done(function(result) {
-  temp = result;
-  var latlngs = result.map(function(e) { return new L.LatLng(+e.latitude, +e.longitude) });
-  var pl = new L.Polyline(latlngs, {color: 'black'}).addTo(map)
-  map.fitBounds(pl.getBounds());
+  var bounds = new L.LatLngBounds();
+
+  var grouped = result.reduce(function(coll, e, i, array){
+    coll[e.client_id] = coll[e.client_id] ? coll[e.client_id] : [];
+    coll[e.client_id].push(e);
+    return coll;
+  }, {});
+
+  for (var key in grouped) {
+    var trail = grouped[key];
+    var latlngs = trail.map(function(e) { return new L.LatLng(+e.latitude, +e.longitude) });
+    bounds.extend(latlngs);
+    var pl = new L.Polyline(latlngs, {color: funkycolors[key % funkycolors.length]}).addTo(map)
+  }
+
+  map.fitBounds(bounds);
 });
   </script>
 </body>
