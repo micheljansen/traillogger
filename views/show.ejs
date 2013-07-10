@@ -32,8 +32,23 @@ new L.StamenTileLayer("watercolor").addTo(map);
 
   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
   <script>
+function getUrlVars() {
+  var URLParams = "";
+  var ps = window.location.search.split(/\?|&/);
+  for (var i = 0; i<ps.length; i++) {
+    if (ps[i]) {
+      var p = ps[i].split(/=/);
+      URLParams = URLParams + p[0] + '=' + p[1] + '&';
+    }
+  }
+  return URLParams;
+}
+
+
 var funkycolors = ["blueviolet", "chartreuse", "darkblue", "darkmagenta", "green", "indigo", "maroon", "orangered", "black", "magenta", "deeppink"];
-$.ajax({dataType: "JSON", url: "/trails.json"})
+var params = getUrlVars();
+
+$.ajax({dataType: "JSON", url: "/trails.json?"+ params })
 .done(function(result) {
   var bounds = new L.LatLngBounds();
 
