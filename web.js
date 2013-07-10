@@ -86,7 +86,16 @@ app.get('/ping', function(request, response) {
 });
 
 app.get('/trails.json', function(request, res) {
-  pgc.query("select client_id, generated_at,latitude,longitude,accuracy from datapoints WHERE accuracy < 100 ORDER BY client_id, generated_at", function(err, result) {
+  var q = request.query;
+  var from = q["from"] ? q["from"] : "2013-01-01";
+  var to = q["to"] ? q["to"] : "2014-01-01";
+  console.log(from);
+  pgc.query({
+    text: "SELECT client_id, generated_at,latitude,longitude,accuracy from datapoints\
+            WHERE accuracy < 100 AND generated_at >= $1 AND generated_at <= $2\
+            ORDER BY generated_at, client_id",
+    values: [from, to]
+  }, function(err, result) {
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.write(JSON.stringify(result.rows, null, 2));
     res.end();
