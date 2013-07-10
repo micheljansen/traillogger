@@ -76,6 +76,11 @@ $.ajax({dataType: "JSON", url: "/trails.json?"+ params })
   }
 
   map.fitBounds(bounds);
+
+  // start at sensible zoomlevel
+  if(map.getZoom() > 16) {
+    map.setZoom(16);
+  }
 });
   </script>
 </body>
