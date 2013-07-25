@@ -92,7 +92,7 @@ app.get('/trails.json', function(request, res) {
   console.log(from);
   pgc.query({
     text: "SELECT client_id, generated_at,latitude,longitude,accuracy from datapoints\
-            WHERE accuracy < 100 AND generated_at >= $1 AND generated_at <= $2\
+            WHERE accuracy < 50 AND generated_at >= $1 AND generated_at <= $2\
             ORDER BY generated_at, client_id",
     values: [from, to]
   }, function(err, result) {
