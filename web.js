@@ -1,13 +1,12 @@
+var cluster = require('cluster');
 var ejs = require("ejs");
 var express = require("express");
 var pg = require("pg");
-var app = express();
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/gpslogger';
-var pgc = new pg.Client(connectionString);
+var port = process.env.PORT || 5000;
+var numCPUs = require('os').cpus().length;
 
-app.use(express.logger());
-app.use(express.static(__dirname + '/public'));
-pgc.connect();
+
 
 // call function nextStep after guaranteeing that a client row exists.
 function with_client_do(request, response, nextStep) {
@@ -58,56 +57,81 @@ function with_client_do(request, response, nextStep) {
   }
 }
 
-app.get('/', function(request, response) {
-  with_client_do(request, response, function(client) {
-    var clientid = client.id;
-    //response.write(JSON.stringify(client, null, 2));
-    response.render("index.ejs", {}, function(err, html) {
-      response.write(html);
-      response.end();
+
+
+if (cluster.isMaster) {
+  console.log('Master:');
+
+  for (var i = 0; i < numCPUs-1; i++) {
+    cluster.fork();
+  }
+
+  cluster.on('death', function(worker) {
+    console.error('DEATH:', worker.pid);
+    cluster.fork();
+  });
+}
+else {
+
+  var app = express();
+  app.use(express.logger());
+  app.use(express.static(__dirname + '/public'));
+
+  var pgc = new pg.Client(connectionString);
+  pgc.connect();
+
+
+  app.get('/', function(request, response) {
+    with_client_do(request, response, function(client) {
+      var clientid = client.id;
+      //response.write(JSON.stringify(client, null, 2));
+      response.render("index.ejs", {}, function(err, html) {
+        response.write(html);
+        response.end();
+      });
     });
   });
-});
 
-app.get('/ping', function(request, response) {
-  with_client_do(request, response, function(client) {
-    var clientid = client.id;
+  app.get('/ping', function(request, response) {
+    with_client_do(request, response, function(client) {
+      var clientid = client.id;
+      var q = request.query;
+      console.log(q["t"], q["lat"], q["long"], q["acc"], q["alt"], q["ala"]);
+      pgc.query("INSERT INTO datapoints(\
+                client_id, created_at, sent_at, generated_at, latitude, longitude, accuracy, altitude, altitude_accuracy, debug)\
+                VALUES($1, now(), to_timestamp($2), to_timestamp($3), $4, $5, $6, $7, $8, $9) RETURNING *",
+                [clientid, q["t"], q["t"], q["lat"], q["long"], q["acc"], q["alt"], q["alt_acc"], request.headers],
+                function(err, row) {
+                  response.write(JSON.stringify([err,row], null, 2));
+                  response.end();
+                });
+    });
+  });
+
+  app.get('/trails.json', function(request, res) {
     var q = request.query;
-    console.log(q["t"], q["lat"], q["long"], q["acc"], q["alt"], q["ala"]);
-    pgc.query("INSERT INTO datapoints(\
-                 client_id, created_at, sent_at, generated_at, latitude, longitude, accuracy, altitude, altitude_accuracy, debug)\
-                 VALUES($1, now(), to_timestamp($2), to_timestamp($3), $4, $5, $6, $7, $8, $9) RETURNING *",
-                 [clientid, q["t"], q["t"], q["lat"], q["long"], q["acc"], q["alt"], q["alt_acc"], request.headers],
-             function(err, row) {
-               response.write(JSON.stringify([err,row], null, 2));
-               response.end();
-             });
+    var from = q["from"] ? q["from"] : "2013-01-01";
+    var to = q["to"] ? q["to"] : "2014-01-01";
+    console.log(from);
+    pgc.query({
+      text: "SELECT client_id, generated_at,latitude,longitude,accuracy from datapoints\
+      WHERE accuracy < 50 AND generated_at >= $1 AND generated_at <= $2\
+      ORDER BY generated_at, client_id",
+      values: [from, to]
+    }, function(err, result) {
+      res.writeHead(200, {'Content-Type': 'application/json'});
+      res.write(JSON.stringify(result.rows, null, 2));
+      res.end();
+    });
   });
-});
 
-app.get('/trails.json', function(request, res) {
-  var q = request.query;
-  var from = q["from"] ? q["from"] : "2013-01-01";
-  var to = q["to"] ? q["to"] : "2014-01-01";
-  console.log(from);
-  pgc.query({
-    text: "SELECT client_id, generated_at,latitude,longitude,accuracy from datapoints\
-            WHERE accuracy < 50 AND generated_at >= $1 AND generated_at <= $2\
-            ORDER BY generated_at, client_id",
-    values: [from, to]
-  }, function(err, result) {
-    res.writeHead(200, {'Content-Type': 'application/json'});
-    res.write(JSON.stringify(result.rows, null, 2));
-    res.end();
+  app.get('/show', function(request, response) {
+    response.render("show.ejs");
   });
-});
-
-app.get('/show', function(request, response) {
-  response.render("show.ejs");
-});
 
 
-var port = process.env.PORT || 5000;
-app.listen(port, function() {
-  console.log("Listening on " + port);
-});
+  app.listen(port, function() {
+    console.log("Worker", cluster.worker.id, "listening on ", port);
+  });
+
+}
