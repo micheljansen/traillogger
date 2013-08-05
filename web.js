@@ -40,7 +40,7 @@ function with_client_do(request, response, nextStep) {
     var found = false;
     pgc.query('SELECT * from clients WHERE id=$1', [clientid])
     .on('row', function(row) {
-      console.log("found row");
+      //console.log("found row");
       found = true;
       nextStep(row);
     })
