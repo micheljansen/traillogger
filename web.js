@@ -24,7 +24,7 @@ function with_client_do(request, response, nextStep) {
   var createNew = function(nextStep) {
     pgc.query('INSERT INTO clients(user_agent, created_at, debug) VALUES($1, now(), $2) RETURNING *', [request.headers["user-agent"], Date()])
     .on('row', function (row) {
-      console.log("inserted:", row);
+      //console.log("inserted:", row);
       clientid = row.id;
       // Write a Cookie
       response.writeHead(200, {
