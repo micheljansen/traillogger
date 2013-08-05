@@ -17,7 +17,7 @@ function with_client_do(request, response, nextStep) {
     var parts = cookie.split('=');
     cookies[ parts[ 0 ].trim() ] = ( parts[ 1 ] || '' ).trim();
   });
-  console.log("cookies", cookies);
+  //console.log("cookies", cookies);
 
   var clientid;
 
@@ -30,7 +30,7 @@ function with_client_do(request, response, nextStep) {
       response.writeHead(200, {
         'Set-Cookie': 'clientid='+clientid
       });
-      console.log("New client", clientid);
+      //console.log("New client", clientid);
 
       nextStep(row);
     });
