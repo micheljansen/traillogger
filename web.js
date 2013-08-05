@@ -74,7 +74,7 @@ if (cluster.isMaster) {
 else {
 
   var app = express();
-  app.use(express.logger());
+  //app.use(express.logger());
   app.use(express.static(__dirname + '/public'));
 
   var pgc = new pg.Client(connectionString);
