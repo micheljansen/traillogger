@@ -54,7 +54,9 @@ function handleError(err) {
   //alert("error");
   log("gps error");
   if(err.code == 1) {
-    alert("Permission denied");
+    alert("Your device denied access to its location. Please check your permissions or settings and try again.");
+    window["humanTideLoggingEnabled"] = false;
+    window.location.hash = "#step3";
   }
 }
 
