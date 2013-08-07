@@ -1,14 +1,15 @@
 function log(text) {
-  /*
   var el = document.getElementById("log");
+  el.innerHTML = text;
 
+  /*
   if("join" in text) {
     el.innerHTML = text.join(', ')+"\n" + el.innerHTML;
   }
   else {
     el.innerHTML = text+"\n" + el.innerHTML;
   }
- */
+  */
   if(console && console.log) { console.log(text); }
 }
 
@@ -34,9 +35,11 @@ function handleSuccess(position) {
   if(window.location.hash == "#step4") {
     window.location.hash = "#step5";
   }
-  log([position.timestamp, position.coords.latitude, position.coords.longitude, position.coords.accuracy]);
   var xmlhttp = new XMLHttpRequest();
   var measured_time = position.timestamp > 1000000000 ? position.timestamp / 1000 : position.timestamp;
+  var dt = new Date(measured_time * 1000);
+  var ts = dt.getHours()+":"+dt.getMinutes()+":"+dt.getSeconds();
+  log([ts, Math.floor(position.coords.accuracy)]);
   var send_time = new Date().getTime() / 1000;
   xmlhttp.open("GET","/ping?&t="+send_time
                +"&mt="+measured_time
