@@ -44,7 +44,7 @@ function handleSuccess(position) {
   var $circle = $( "#circle" );
 
   var send_time = new Date().getTime() / 1000;
-  xmlhttp.open("GET","/ping?&t="+send_time
+  xmlhttp.open("POST","/ping?&t="+send_time
                +"&mt="+measured_time
                +"&lat="+position.coords.latitude
                +"&long="+position.coords.longitude

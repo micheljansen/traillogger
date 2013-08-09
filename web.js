@@ -92,7 +92,7 @@ else {
     });
   });
 
-  app.get('/ping', function(request, response) {
+  app.post('/ping', function(request, response) {
     with_client_do(request, response, function(client) {
       var clientid = client.id;
       var q = request.query;
