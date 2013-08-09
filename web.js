@@ -96,6 +96,7 @@ else {
     with_client_do(request, response, function(client) {
       var clientid = client.id;
       var q = request.query;
+      console.log(clientid, q["t"], q["t"], q["lat"], q["long"], q["acc"], q["alt"], q["alt_acc"]);
       pgc.query("INSERT INTO datapoints(\
                 client_id, created_at, sent_at, generated_at, latitude, longitude, accuracy, altitude, altitude_accuracy, debug)\
                 VALUES($1, now(), to_timestamp($2), to_timestamp($3), $4, $5, $6, $7, $8, $9) RETURNING *",
