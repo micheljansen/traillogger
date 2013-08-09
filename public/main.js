@@ -1,4 +1,5 @@
 function log(text) {
+  return;
   var el = document.getElementById("log");
   el.innerHTML = text;
 
@@ -40,6 +41,8 @@ function handleSuccess(position) {
   var dt = new Date(measured_time * 1000);
   var ts = dt.getHours()+":"+dt.getMinutes()+":"+dt.getSeconds();
   log([ts, Math.floor(position.coords.accuracy)]);
+  var $circle = $( "#circle" );
+
   var send_time = new Date().getTime() / 1000;
   xmlhttp.open("GET","/ping?&t="+send_time
                +"&mt="+measured_time
@@ -51,6 +54,23 @@ function handleSuccess(position) {
 
     ,true);
   xmlhttp.send();
+
+  var accuracy = position.coords.accuracy;
+
+  if(accuracy <= 10) {
+    $circle.removeClass( "good, average, bad" );
+    $circle.addClass( "good" );
+  }
+  else if (accuracy <= 30) {
+    $circle.removeClass( "good, average, bad" );
+    $circle.addClass( "average" );
+  }
+  else {
+    $circle.removeClass( "good, average, bad" );
+    $circle.addClass( "bad" );
+  }
+
+  $circle.toggleClass( "trigger" );
 }
 
 function handleError(err) {

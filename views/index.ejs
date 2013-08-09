@@ -44,6 +44,22 @@
         z-index: -1;
       }
 
+      #circle {
+        background: #ffffff;
+      }
+
+      #circle.bad {
+        background: red;
+      }
+
+      #circle.average {
+        background: yellow;
+      }
+
+      #circle.good {
+        background: green;
+      }
+
       .getbigger {
         position: absolute;
         top: 100px;
@@ -51,7 +67,6 @@
         width: 21px;
         height: 21px;
 
-        background: #ffffff;
         -webkit-border-radius: 200px;
         -moz-border-radius: 200px;
         border-radius: 200px;
@@ -59,13 +74,13 @@
         -webkit-transition: all 0.5s ease-in-out;
 
         -webkit-animation-name: bubbleFloat;
-        -webkit-animation-duration: 3s;
+        -webkit-animation-duration: 2s;
         -webkit-animation-iteration-count: 1;
       }
 
         @-webkit-keyframes bubbleFloat {
-        0% {-webkit-transform: scale(1); opacity: 0.3; -webkit-animation-timing-function: ease-in-out; }
-        100% {-webkit-transform: scale(10 ); opacity: 0; -webkit-animation-timing-function: ease-in-out; }
+        0% {-webkit-transform: scale(1); opacity: 0.3; -webkit-animation-timing-function: ease-out; }
+        100% {-webkit-transform: scale(10 ); opacity: 0; -webkit-animation-timing-function: ease-out; }
       }
       .trigger {
         display: table;
@@ -136,8 +151,6 @@
             <div id="circle" class="getbigger" ></div>
           </div>
 
-          <div id="changeme">Change me</div>
-
           <p class="cntr">To view your human tide once the event is over, you can  <a href="mailto:?subject=Human Tide - Your unique identifier is <%= clientid %>&body=View your Human Tide at http://www.humantide.co.uk/. Your unique identifier is <%= clientid %>.">send an email</a> to yourself containing a link back to the website and your unique Human Tide identifier (<%= clientid %>).</p>
 
         </div>
@@ -156,18 +169,6 @@
 
 
   <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-
-<script>
-$( "#changeme" ).click(function() {
-  //alert( "Handler for .click() called." );
-  $( "#circle" ).toggleClass( "trigger" );
-});
-
-
-</script>
-
-  <script>
-  </script>
 
   <script>
    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
