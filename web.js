@@ -85,7 +85,7 @@ else {
     with_client_do(request, response, function(client) {
       var clientid = client.id;
       //response.write(JSON.stringify(client, null, 2));
-      response.render("index.ejs", {}, function(err, html) {
+      response.render("index.ejs", {clientid: clientid}, function(err, html) {
         response.write(html);
         response.end();
       });

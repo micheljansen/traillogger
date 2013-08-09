@@ -9,19 +9,18 @@
     <link href='http://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>   
    
   <style>
+
       /* remove background */
       html {  
         background: #313236;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;   
       }
-      #done img {
-           text-align: center;
-            width: 260px;
-            display:block;
-            margin: 0 auto;
+
+      .wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .footer img {
+        margin: 0;
       }
 
       #step2, #step3, #step4, #done {
@@ -29,79 +28,143 @@
       }
 
       h1, h2, h3 {text-align: center;}
+      h1 {margin-bottom: 1em;}
+      img {border: solid 1px #555555;}
+      p {color: #999999;}
+
+      .wheel {
+        position: relative;
+        margin: 0 auto;
+        width: 220px;
+      }
+      .wheel img {
+        position: relative;
+        border: none;
+        width: 220px;
+        z-index: -1;
+      }
+
+      .getbigger {
+        position: absolute;
+        top: 100px;
+        left: 100px;
+        width: 21px;
+        height: 21px;
+
+        background: #ffffff;
+        -webkit-border-radius: 200px;
+        -moz-border-radius: 200px;
+        border-radius: 200px;
+        opacity: 0.3;
+        -webkit-transition: all 0.5s ease-in-out;
+
+        -webkit-animation-name: bubbleFloat;
+        -webkit-animation-duration: 3s;
+        -webkit-animation-iteration-count: 1;
+      }
+
+        @-webkit-keyframes bubbleFloat {
+        0% {-webkit-transform: scale(1); opacity: 0.3; -webkit-animation-timing-function: ease-in-out; }
+        100% {-webkit-transform: scale(10 ); opacity: 0; -webkit-animation-timing-function: ease-in-out; }
+      }
+      .trigger {
+        display: table;
+      }
+
+     
 
   </style>
 
 	</head>
     
-    <body>
+    <body class="gps">
 
     	<div class="wrapper">
 
-
-
       <div class="row" id="step1">
             <div class="row-inner">
-                  <h1>Great! Thanks for being a part of Human Tide</h1>
-                  <p>You can learn more about the project at <a href="http://humantide.co.uk">humantide.co.uk</a></p>
-                  <p><a class="button" id="btn-step2" href="#step2">Next - Step 2/4</a></p>
+                  <h1>Welcome</h1>
+                  <h1>You Are About To Join Human Tide </h1>
+                  <p><a class="button" id="btn-step2" href="#step2">Next Step</a></p>
+                  <p>Learn more about the project at <a href="http://humantide.co.uk">humantide.co.uk</a></p>
             </div>
       </div>
 
       <div class="row" id="step2" style="display: none;">
             <div class="row-inner">
-                  <h1>Important!</h1>
-                  <p>We can't record your location if your phone goes to sleep or if you leave this page. We suggest that you disable the auto lock in your phone's settings like below.</p>
+                  <h1>Don't go to sleep! Read This!</h1>
+                  <p>We can't record your location if your phone goes to sleep or if you leave this page. We suggest that if you have an iphone, you disable the auto lock in your phone's settings like below.</p>
                   <img src="http://humantide.co.uk/public/img/sleep.png"  width="100%">  
-                  <p><a class="button" id="btn-step3" href="#step3">Next - Step 3/4</a></p>
+                  <p><a class="button" id="btn-step3" href="#step3">Next Step</a></p>
             </div>
       </div>
 
       <div class="row" id="step3" style="display: none;">
             <div class="row-inner">
-                  <h1>Allow GPS Tracking</h1>
-                  <p>For us to start recording your location, you'll need to grant permisison to access your location on the next screen. If you are using an iPhone, you'll see something like this below.</p>
-                  <img src="http://humantide.co.uk/public/img/permission.png"  width="100%">  
-                  <p><a class="button" id="btn-step4" href="#step4">Next - Step 4/4</a></p>
+                  <h1>Allow GPS</h1>
+                  <p>For us to start following your location, you'll need to grant permisison to access your location on the next screen.</p> 
+                  <p> If you are using an iPhone, you'll see something like this.</p>
+                  <img src="http://humantide.co.uk/public/img/permission.png"  width="100%">
+                  <p> If you are using an Android phone, you'll see something like this.</p>
+                  <img src="http://humantide.co.uk/public/img/permission-android.png"  width="100%">
+                  <p>or this</p>
+                  <img src="http://humantide.co.uk/public/img/permission-android-2.png"  width="100%">
+                  <p><a class="button" id="btn-step4" href="#step4">Next Step</a></p>
             </div>
       </div>
       <div class="row" id="step4" style="display: none;">
             <div class="row-inner">
-                  <h1>Waiting...</h1>
-                  <p>Waiting for GPS signal. Please wait.</p>
+                  <h1>Hold on</h1>
+                  <p>Waiting for signal...</p>
             </div>
       </div>
 
       <div class="row" id="step5" style="display: none;">
             <div class="row-inner">
-                  <h1>Confirmation</h1>
-                  <p>You can now put your phone in your pocket. Remember not to close this webpage or switch off your phone.</p>
+                  <h1>All Set!</h1>
+                  <p>Remember not to close this webpage or switch off your phone.</p>
                   <p><a class="button" id="btn-done" href="#done">Okay</a></p>
             </div>
       </div>
 
-      <div class="row" id="done" style="display: none;">
-            <div class="row-inner">
-                  <h1 class="inro">Tracking!</h1>
-                  <img src="http://humantide.co.uk/public/img/logo-animated.gif" class="animated-logo"> 
-                  <pre id="log"></pre>
-                  <p class="cntr">To view your human tide once the event is over, you can  <a href="mailto:?subject=Human Tide - Your unique identifier is 42&body=View your Human Tide at http://www.humantide.co.uk/digital-tide/. Your unique identifier is 42.">send an email</a> to yourself containing a link back to the website and your unique Human Tide identifier.</p>
-            </div>
+      <div class="row" id="done">
+        <div class="row-inner">
+          <h1>ALLEZ!</h1>
+
+          <div class="wheel">
+            <img src="http://humantide.co.uk/public/img/wheel.gif" width="100%">      
+            <div id="circle" class="getbigger" ></div>
+          </div>
+
+          <div id="changeme">Change me</div>
+
+          <p class="cntr">To view your human tide once the event is over, you can  <a href="mailto:?subject=Human Tide - Your unique identifier is <%= clientid %>&body=View your Human Tide at http://www.humantide.co.uk/. Your unique identifier is <%= clientid %>.">send an email</a> to yourself containing a link back to the website and your unique Human Tide identifier (<%= clientid %>).</p>
+
+        </div>
       </div>
 
       <div class="row footer" id="footer">
             <div class="row-inner">
                    <h4>Privacy Notice:</h4>
-                  <p class="small">We can only track your location if you are on this webpage. As soon as the event is over and you leave this webpage your location will not be recorded anymore. No other personal data is collected.</p>
+                  <p>We can only track your location if you are on this webpage. As soon as the event is over and you leave this webpage, we will not be following you anymore. (No personal data is collected either).</p>
+                  <img src="http://humantide.co.uk/public/img/rose.gif" width="100%">
             </div>
       </div>
-
 
 
   </div> <!-- close wrapper -->
 
 
   <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<script>
+$( "#changeme" ).click(function() {
+  //alert( "Handler for .click() called." );
+  $( "#circle" ).toggleClass( "trigger" );
+});
+
+
+</script>
 
   <script>
   </script>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Digital Tide - Human Tide</title>
+    <link rel="stylesheet" href="http://humantide.co.uk/public/docs/css/responsive-gs-12col.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="http://humantide.co.uk/public/docs/css/screen.css" type="text/css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>   
+   
+  <style>
+      /* remove background */
+      html {  
+        background: #313236;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;   
+      }
+      #done img {
+           text-align: center;
+            width: 260px;
+            display:block;
+            margin: 0 auto;
+      }
+
+      #step2, #step3, #step4, #done {
+        display: none;
+      }
+
+      h1, h2, h3 {text-align: center;}
+
+  </style>
+
+	</head>
+    
+    <body>
+
+    	<div class="wrapper">
+
+
+
+      <div class="row" id="step1">
+            <div class="row-inner">
+                  <h1>Great! Thanks for being a part of Human Tide</h1>
+                  <p>You can learn more about the project at <a href="http://humantide.co.uk">humantide.co.uk</a></p>
+                  <p><a class="button" id="btn-step2" href="#step2">Next - Step 2/4</a></p>
+            </div>
+      </div>
+
+      <div class="row" id="step2">
+            <div class="row-inner">
+                  <h1>Important!</h1>
+                  <p>We can't record your location if your phone goes to sleep or if you leave this page. We suggest that you disable the auto lock in your phone's settings like below.</p>
+                  <img src="http://humantide.co.uk/public/img/sleep.png"  width="100%">  
+                  <p><a class="button" id="btn-step3" href="#step3">Next - Step 3/4</a></p>
+            </div>
+      </div>
+
+      <div class="row" id="step3">
+            <div class="row-inner">
+                  <h1>Allow GPS Tracking</h1>
+                  <p>For us to start recording your location, you'll need to grant permisison to access your location on the next screen. If you are using an iPhone, you'll see something like this below.</p>
+                  <img src="http://humantide.co.uk/public/img/permission.png"  width="100%">  
+                  <p><a class="button" id="btn-step4" href="#step4">Next - Step 4/4</a></p>
+            </div>
+      </div>
+
+      <div class="row" id="step4">
+            <div class="row-inner">
+                  <h1>Confirmation</h1>
+                  <p>You can now put your phone in your pocket. Remember not to close this webpage or switch off your phone.</p>
+                  <p><a class="button" id="btn-done" href="#done">Okay</a></p>
+            </div>
+      </div>
+
+      <div class="row" id="done">
+            <div class="row-inner">
+                  <h1 class="inro">Tracking!</h1>
+                  <img src="http://humantide.co.uk/public/img/logo-animated.gif" class="animated-logo"> 
+                  <p class="cntr">To view your human tide once the event is over, you can  <a href="mailto:?subject=Human Tide - Your unique identifier is 42&body=View your Human Tide at http://www.humantide.co.uk/digital-tide/. Your unique identifier is 42.">send an email</a> to yourself containing a link back to the website and your unique Human Tide identifier.</p>
+                 
+            </div>
+      </div>
+
+      <div class="row footer" id="footer">
+            <div class="row-inner">
+                   <h4>Privacy Notice:</h4>
+                  <p class="small">We can only track your location if you are on this webpage. As soon as the event is over and you leave this webpage your location will not be recorded anymore. No other personal data is collected.</p>
+            </div>
+      </div>
+
+
+
+  </div> <!-- close wrapper -->
+
+
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+  <script>
+  function showPage() {
+    console.log(window.location.hash);
+    var hash = window.location.hash;
+    switch(hash) {
+      case "#step2":
+        $('#step1, #step3, #step4, #done').fadeOut('fast');
+        $('#step2').fadeIn('fast'); 
+        break;
+      case "#step3":
+        $('#step1, #step2, #step4, #done').fadeOut('fast');
+        $('#step3').fadeIn('fast'); 
+        break;
+      case "#step4":
+        $('#step1, #step2, #step3, #done').fadeOut('fast');
+        $('#step4').fadeIn('fast'); 
+        break;
+      case "#done":
+        $('#step1, #step2, #step3, #step4').fadeOut('fast');
+        $('#done').fadeIn('fast'); 
+        break;
+      default:
+        $('#step2, #step3, #step4, #done').fadeOut('fast');
+        $('#step1').fadeIn('fast'); 
+      // do nothing;
+    }
+    $('html, body').animate({ scrollTop: 0 }, 'slow');
+  }
+
+  window.addEventListener("hashchange", showPage, false);
+  // run showPage on page load
+  $(showPage);
+
+      $('a').css('cursor', 'pointer');
+
+
+  </script>
+
+  <script>
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+   ga('create', 'UA-42475913-1', 'humantide.co.uk');
+   ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>
