@@ -76,6 +76,7 @@ else {
   var app = express();
   //app.use(express.logger());
   app.use(express.static(__dirname + '/public'));
+  app.use(express.bodyParser());
 
   var pgc = new pg.Client(connectionString);
   pgc.connect();
@@ -96,6 +97,7 @@ else {
     with_client_do(request, response, function(client) {
       var clientid = client.id;
       var q = request.body;
+      console.log(request.body);
       console.log(clientid, q["t"], q["t"], q["lat"], q["long"], q["acc"], q["alt"], q["alt_acc"]);
       pgc.query("INSERT INTO datapoints(\
                 client_id, created_at, sent_at, generated_at, latitude, longitude, accuracy, altitude, altitude_accuracy, debug)\

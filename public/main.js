@@ -44,16 +44,15 @@ function handleSuccess(position) {
   var $circle = $( "#circle" );
 
   var send_time = new Date().getTime() / 1000;
-  xmlhttp.open("POST","/ping?&t="+send_time
+  xmlhttp.open("POST","/ping", true);
+  xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xmlhttp.send("t="+send_time
                +"&mt="+measured_time
                +"&lat="+position.coords.latitude
                +"&long="+position.coords.longitude
                +"&acc="+position.coords.accuracy
                +(position.coords.altitude ? "&alt="+position.coords.altitude : "")
-               +(position.coords.altitudeAccuracy ? "&alt_acc="+position.coords.altitudeAccuracy : "")
-
-    ,true);
-  xmlhttp.send();
+               +(position.coords.altitudeAccuracy ? "&alt_acc="+position.coords.altitudeAccuracy : ""));
 
   var accuracy = position.coords.accuracy;
 
