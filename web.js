@@ -99,7 +99,7 @@ else {
       pgc.query("INSERT INTO datapoints(\
                 client_id, created_at, sent_at, generated_at, latitude, longitude, accuracy, altitude, altitude_accuracy, debug)\
                 VALUES($1, now(), to_timestamp($2), to_timestamp($3), $4, $5, $6, $7, $8, $9) RETURNING *",
-                [clientid, q["t"], q["t"], q["lat"], q["long"], q["acc"], q["alt"], q["alt_acc"], request.headers],
+                [clientid, q["t"], q["t"], q["lat"], q["long"], q["acc"], q["alt"], q["alt_acc"], null],
                 function(err, row) {
                   response.write(JSON.stringify([err,row], null, 2));
                   response.end();
