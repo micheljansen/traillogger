@@ -51,7 +51,7 @@ $.ajax({dataType: "JSON", url: "/trails.json?"+ params })
         title: "test"
       });
       dot.addTo(map);
-      dot.on('mouseover', function() { $debug.html(JSON.stringify(e)); console.log(e) });
+      dot.on('mouseover', function() { $debug.html(JSON.stringify(e, null, "  ")); console.log(e) });
       return dot;
     });
   }
