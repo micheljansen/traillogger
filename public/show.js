@@ -21,6 +21,7 @@ function getUrlVars() {
 
 var funkycolors = ["blueviolet", "chartreuse", "darkblue", "darkmagenta", "green", "indigo", "maroon", "orangered", "black", "magenta", "deeppink"];
 var params = getUrlVars();
+var $debug = $("#debug");
 
 $.ajax({dataType: "JSON", url: "/trails.json?"+ params })
 .done(function(result) {
@@ -50,7 +51,7 @@ $.ajax({dataType: "JSON", url: "/trails.json?"+ params })
         title: "test"
       });
       dot.addTo(map);
-      dot.on('mouseover', function() { console.log(e) });
+      dot.on('mouseover', function() { $debug.html(JSON.stringify(e)); console.log(e) });
       return dot;
     });
   }
