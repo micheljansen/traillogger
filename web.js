@@ -66,7 +66,7 @@ if (cluster.isMaster) {
     cluster.fork();
   }
 
-  cluster.on('death', function(worker) {
+  cluster.on('exit', function(worker) {
     console.error('DEATH:', worker.pid);
     cluster.fork();
   });
@@ -133,7 +133,7 @@ else {
 
 
   app.listen(port, function() {
-    console.log("Worker", cluster.worker.id, "listening on ", port);
+    // console.log("Worker", cluster.worker.id, "listening on ", port);
   });
 
 }
