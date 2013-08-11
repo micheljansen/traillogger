@@ -46,9 +46,11 @@ $.ajax({dataType: "JSON", url: "/trails.json?"+ params })
         //color: funkycolors[key & funkycolors.length],
         color: "hsl("+Math.floor(256*t)+",100%, 50%)",
         stroke: false,
+        opacity: 0.5,
         title: "test"
       });
       dot.addTo(map);
+      dot.on('mouseover', function() { console.log(e) });
       return dot;
     });
   }
