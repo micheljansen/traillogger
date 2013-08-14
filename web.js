@@ -112,8 +112,8 @@ else {
 
   app.get('/trails.json', function(request, res) {
     var q = request.query;
-    var from = q["from"] ? q["from"] : "2013-01-01";
-    var to = q["to"] ? q["to"] : "2014-01-01";
+    var from = q["from"] ? q["from"] : "2013-08-09T20:21:00";
+    var to = q["to"] ? q["to"] : "2013-08-09T23:59:00";
     console.log(from);
     pgc.query({
       text: "SELECT client_id, generated_at,latitude,longitude,accuracy from datapoints\
