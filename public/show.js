@@ -51,9 +51,11 @@ $.ajax({dataType: "JSON", url: "/trails.json?"+ params })
       var dot = new L.Circle(new L.LatLng(+e.latitude, +e.longitude), 0.5 /*e.accuracy*/,
       {
         //color: funkycolors[key & funkycolors.length],
-        color: "hsl("+Math.floor(256*t)+",100%, 50%)",
-        stroke: false,
-        opacity: 0.5,
+        color: "hsl("+Math.floor(360*t)+",100%, 50%)",
+        //stroke: false,
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 1,
         title: "test"
       });
       dot.addTo(map);
