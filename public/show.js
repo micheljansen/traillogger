@@ -44,6 +44,7 @@ $.ajax({dataType: "JSON", url: "/trails.json?"+ params })
     var latlngs = trail.map(function(e) { return new L.LatLng(+e.latitude, +e.longitude) });
     bounds.extend(latlngs);
     //var pl = new L.Polyline(latlngs, {color: funkycolors[key % funkycolors.length]}).addTo(map)
+    //var pl = new L.Polyline(latlngs, {color: "black"}).addTo(map)
     var dots = trail.map(function(e) {
       var dt =  new Date(e.generated_at);
       var minute = dt.getMinutes();
