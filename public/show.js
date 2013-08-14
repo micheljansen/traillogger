@@ -1,8 +1,14 @@
 // create a map in the "map" div, set the view to a given place and zoom
-var map = L.map('map').setView([51.505, -0.09], 13);
+var map = L.map('map').setView([51.37291984476517, 1.1135458918156482], 16);
 
 // add an OpenStreetMap tile layer
-//new L.StamenTileLayer("watercolor").addTo(map);
+/*
+new L.StamenTileLayer("watercolor").addTo(map);
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+*/
+
 map._layersMaxZoom=20
 
 
