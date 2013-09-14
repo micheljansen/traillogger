@@ -116,13 +116,36 @@ else {
     var to = q["to"] ? q["to"] : "2013-08-09T23:59:00";
     console.log(from);
     pgc.query({
-      text: "SELECT client_id, generated_at,latitude,longitude,accuracy from datapoints\
+      text: "SELECT id, client_id, generated_at,latitude,longitude,accuracy from datapoints\
       WHERE accuracy < 50 AND generated_at >= $1 AND generated_at <= $2\
       ORDER BY generated_at, client_id",
       values: [from, to]
     }, function(err, result) {
       res.writeHead(200, {'Content-Type': 'application/json'});
       res.write(JSON.stringify(result.rows, null, 2));
+      res.end();
+    });
+  });
+
+  app.get('/grouped.json', function(request, res) {
+    var q = request.query;
+    var from = q["from"] ? q["from"] : "2013-08-09T20:21:00";
+    var to = q["to"] ? q["to"] : "2013-08-09T23:59:00";
+    console.log(from);
+    pgc.query({
+      text: "SELECT id, client_id, generated_at,latitude,longitude,accuracy from datapoints\
+      WHERE accuracy < 50 AND generated_at >= $1 AND generated_at <= $2\
+      ORDER BY client_id, generated_at",
+      values: [from, to]
+    }, function(err, result) {
+      var grouped = result.rows.reduce(function(coll, cur) {
+        var cid = ""+cur.client_id
+        coll[cid] = coll[cid] || [];
+        coll[cid].push(cur);
+        return coll;
+      }, {});
+      res.writeHead(200, {'Content-Type': 'application/json'});
+      res.write(JSON.stringify(grouped, null, 2));
       res.end();
     });
   });
