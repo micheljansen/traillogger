@@ -4,7 +4,8 @@
   "dependencies": {
     "pg": "2.x",
     "express": "3.1.x",
-    "ejs": "0.8.x"
+    "ejs": "0.8.x",
+    "async": "0.2.9"
   },
   "engines": {
     "node": "0.10.x",
