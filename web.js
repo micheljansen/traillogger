@@ -2,6 +2,7 @@ var cluster = require('cluster');
 var ejs = require("ejs");
 var express = require("express");
 var pg = require("pg");
+var async = require("async");
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/gpslogger';
 var port = process.env.PORT || 5000;
 var numCPUs = require('os').cpus().length;
