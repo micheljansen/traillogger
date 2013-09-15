@@ -128,6 +128,49 @@ else {
     });
   });
 
+  app.get('/segments.json', function(request, res) {
+    var q = request.query;
+    // var timesegments = q["times"] ? JSON.parse(q["times"]) : [["2013-08-09T20:21:00", "2013-08-09T23:59:00"]];
+    var timesegments = q["times"] ? JSON.parse(q["times"]) : [
+      ["2013-08-09T20:25:00Z", "2013-08-09T20:42:00Z"],
+      ["2013-08-09T20:56:00Z", "2013-08-09T21:08:00Z"],
+      ["2013-08-09T21:21:00Z", "2013-08-09T21:29:00Z"],
+      ["2013-08-09T21:32:00Z", "2013-08-09T21:42:00Z"],
+      ["2013-08-09T21:49:00Z", "2013-08-09T21:52:00Z"],
+      ["2013-08-09T21:52:00Z", "2013-08-09T21:56:00Z"],
+    ];
+    console.log(timesegments);
+
+    async.map(timesegments, getSegment, function(err, results) {
+      // beat data into shape
+      // starting by extracting the rows from the different timesegments
+      var rowsets = results.map(function(x) {
+        // break up by client_id
+        return x.rows.reduce(function(coll, cur) {
+          var cid = ""+cur.client_id
+          coll[cid] = coll[cid] || [];
+          coll[cid].push(cur);
+          return coll;
+        }, {});
+      });
+      res.writeHead(200, {'Content-Type': 'application/json'});
+      res.write(JSON.stringify(rowsets, null, 2));
+      res.end();
+    });
+
+    function getSegment(timerange, callback) {
+      pgc.query({
+        text: "SELECT id, client_id, generated_at,latitude,longitude,accuracy from datapoints\
+        WHERE accuracy < 50 AND generated_at >= $1 AND generated_at <= $2\
+        ORDER BY client_id, generated_at",
+        values: timerange
+      }, callback);
+    }
+
+  });
+
+
+
   app.get('/grouped.json', function(request, res) {
     var q = request.query;
     var from = q["from"] ? q["from"] : "2013-08-09T20:21:00";
